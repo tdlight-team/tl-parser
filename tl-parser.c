@@ -383,9 +383,9 @@ int expect (char *s) {
   if (!parse.lex.ptr || parse.lex.ptr == (void *)-1 || parse.lex.type == lex_error || parse.lex.type == lex_none || parse.lex.len != (int)strlen (s) || memcmp (s, parse.lex.ptr, parse.lex.len)) {
     static char buf[1000];
 #if defined(_MSC_VER) && _MSC_VER >= 1400
-	sprintf_s(buf, 1000, "Expected %s", s);
+    sprintf_s(buf, 1000, "Expected %s", s);
 #else
-	sprintf(buf, "Expected %s", s);
+    sprintf(buf, "Expected %s", s);
 #endif  
     parse_error (buf);
     return -1;
@@ -397,19 +397,19 @@ int expect (char *s) {
 
 struct parse *tl_init_parse_file (const char *fname) {
 #if defined(_MSC_VER) && _MSC_VER >= 1400
-	int fd = 0;
-	if (_sopen_s(&fd, fname, _O_RDONLY | _O_BINARY, _SH_DENYNO, _S_IREAD | _S_IWRITE) != 0) {
-		char errorStr[256] = { 0 };
-		strerror_s(errorStr, 256, errno);
-		fprintf(stderr, "Error %s\n", errorStr);
+    int fd = 0;
+    if (_sopen_s(&fd, fname, _O_RDONLY | _O_BINARY, _SH_DENYNO, _S_IREAD | _S_IWRITE) != 0) {
+        char errorStr[256] = { 0 };
+        strerror_s(errorStr, 256, errno);
+        fprintf(stderr, "Error %s\n", errorStr);
 #elif defined(WIN32) || defined(_WIN32)
-	int fd = open(fname, O_RDONLY | O_BINARY);
-	if (fd < 0) {
-		fprintf(stderr, "Error %s\n", strerror(errno));
+    int fd = open(fname, O_RDONLY | O_BINARY);
+    if (fd < 0) {
+        fprintf(stderr, "Error %s\n", strerror(errno));
 #else
-	int fd = open(fname, O_RDONLY);
-	if (fd < 0) {
-		fprintf(stderr, "Error %m\n");
+    int fd = open(fname, O_RDONLY);
+    if (fd < 0) {
+        fprintf(stderr, "Error %m\n");
 #endif 
     assert (0);
     return 0;
@@ -1430,9 +1430,9 @@ void tl_buf_add_tree (struct tl_combinator_tree *T, int x) {
       if (T->type == type_num && T->type_flags) {
         static char _buf[30];
 #if defined(_MSC_VER) && _MSC_VER >= 1400
-		sprintf_s(_buf, 30, "+%"_PRINTF_INT64_"d", T->type_flags);
+        sprintf_s(_buf, 30, "+%"_PRINTF_INT64_"d", T->type_flags);
 #else
-		sprintf(_buf, "+%"_PRINTF_INT64_"d", T->type_flags);
+        sprintf(_buf, "+%"_PRINTF_INT64_"d", T->type_flags);
 #endif  
         tl_buf_add_string_q (_buf, -1, 0);
       }
@@ -1471,9 +1471,9 @@ void tl_buf_add_tree (struct tl_combinator_tree *T, int x) {
       tl_buf_add_string_q (".", -1, 0);
       static char _buf[30];
 #if defined(_MSC_VER) && _MSC_VER >= 1400
-	  sprintf_s(_buf, 30, "%"_PRINTF_INT64_"d", T->left->type_flags);
+      sprintf_s(_buf, 30, "%"_PRINTF_INT64_"d", T->left->type_flags);
 #else
-	  sprintf(_buf, "%"_PRINTF_INT64_"d", T->left->type_flags);
+      sprintf(_buf, "%"_PRINTF_INT64_"d", T->left->type_flags);
 #endif
       tl_buf_add_string_q (_buf, -1, 0);
       tl_buf_add_string_q ("?", -1, 0);
@@ -1994,9 +1994,9 @@ struct tl_combinator_tree *tl_parse_args134 (struct tree *T) {
       if (!name) {
         static char s[20];
 #if defined(_MSC_VER) && _MSC_VER >= 1400
-		sprintf_s(s, 20, "%"_PRINTF_INT64_"d", lrand48() * (1ll << 32) + lrand48());
+        sprintf_s(s, 20, "%"_PRINTF_INT64_"d", lrand48() * (1ll << 32) + lrand48());
 #else
-		sprintf(s, "%"_PRINTF_INT64_"d", lrand48() * (1ll << 32) + lrand48());
+        sprintf(s, "%"_PRINTF_INT64_"d", lrand48() * (1ll << 32) + lrand48());
 #endif
         name = s;
       }
