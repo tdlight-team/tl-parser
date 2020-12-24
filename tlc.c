@@ -24,7 +24,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <assert.h>
 
 #if defined(_MSC_VER)
 #include <io.h>
@@ -65,19 +64,17 @@ int vkext_write (const char *filename) {
   if (r != 0)
   {
       fprintf(stderr, "Cannot write file %s\n", filename);
-      return -1;
+      abort();
   }
 #elif defined(WIN32) || defined(_WIN32)
   int f = open(filename, O_CREAT | O_WRONLY | O_TRUNC | O_BINARY, 0640);
-  assert(f >= 0);
 #else
   int f = open (filename, O_CREAT | O_WRONLY | O_TRUNC, 0640);
-  assert (f >= 0);
 #endif
   if (!f)
   {
       fprintf(stderr, "Cannot write file %s\n", filename);
-      return -1;
+      abort();
   }
   write_types (f);
   close (f);
