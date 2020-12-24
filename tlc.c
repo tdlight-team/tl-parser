@@ -22,8 +22,6 @@
 
 */
 
-#include "config.h"
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -42,7 +40,6 @@
 #include <fcntl.h>
 
 #include <signal.h>
-#include "config.h"
 
 #ifdef HAVE_EXECINFO_H
 #include <execinfo.h>

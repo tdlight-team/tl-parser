@@ -23,7 +23,6 @@
 */
 
 #define _FILE_OFFSET_BITS 64
-#include "config.h"
 
 #if defined(_MSC_VER)
 #include <io.h>
@@ -40,12 +39,11 @@
 #include <assert.h>
 #include <string.h>
 #include <time.h>
-#include <zlib.h>
+#include "crc32.h"
 #include "portable_endian.h"
 #include "tl-parser-tree.h"
 #include "tl-parser.h"
 #include "tl-tl.h"
-#include "config.h"
 
 extern int verbosity;
 extern int schema_version;
@@ -83,8 +81,6 @@ struct tree *tree_alloc (void) {
   memset (T, 0, sizeof (*T));
   return T;
 }
-
-#define CRC32_INITIAL crc32 (0, 0, 0)
 
 void tree_add_child (struct tree *P, struct tree *C) {
   if (P->nc == P->size) {
@@ -1501,7 +1497,7 @@ int tl_count_combinator_name (struct tl_constructor *c) {
   tl_buf_add_tree (c->right, 1);
   //fprintf (stderr, "%.*s\n", buf_pos, buf);
   if (!c->name) {
-    c->name = crc32 (CRC32_INITIAL, (void *) buf, buf_pos);
+    c->name = compute_crc32(buf, buf_pos);
   }
   return c->name;
 }
@@ -1523,7 +1519,7 @@ int tl_print_combinator (struct tl_constructor *c) {
     fprintf (stderr, "%.*s\n", buf_pos, buf);
   }
 /*  if (!c->name) {
-    c->name = crc32 (CRC32_INITIAL, (void *) bbuf, buf_pos);
+    c->name = compute_crc32 (buf, buf_pos);
   }*/
   return c->name;
 }
