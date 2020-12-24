@@ -61,7 +61,12 @@ void usage (void) {
 int vkext_write (const char *filename) {
 #if defined(_MSC_VER) && _MSC_VER >= 1400
   int f = 0;
-  assert(_sopen_s(&f, filename, _O_CREAT | _O_WRONLY | _O_TRUNC | _O_BINARY, _SH_DENYNO, _S_IREAD | _S_IWRITE) == 0);
+  int r = _sopen_s(&f, filename, _O_CREAT | _O_WRONLY | _O_TRUNC | _O_BINARY, _SH_DENYNO, _S_IREAD | _S_IWRITE);
+  if (r != 0)
+  {
+      fprintf(stderr, "Cannot write file %s\n", filename);
+      return -1;
+  }
 #elif defined(WIN32) || defined(_WIN32)
   int f = open(filename, O_CREAT | O_WRONLY | O_TRUNC | O_BINARY, 0640);
   assert(f >= 0);
@@ -69,6 +74,11 @@ int vkext_write (const char *filename) {
   int f = open (filename, O_CREAT | O_WRONLY | O_TRUNC, 0640);
   assert (f >= 0);
 #endif
+  if (!f)
+  {
+      fprintf(stderr, "Cannot write file %s\n", filename);
+      return -1;
+  }
   write_types (f);
   close (f);
   return 0;

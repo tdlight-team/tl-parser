@@ -2823,11 +2823,21 @@ int num = 0;
 void wint (int a) {
 //  printf ("%d ", a);
   a = htole32 (a);
-  assert (write (__f, &a, 4) == 4);
+  int r = write(__f, &a, 4);
+  if (r != 4)
+  {
+      fprintf(stderr, "Cannot write int %d, file might be corrupted", a);
+      assert(0);
+  }
 }
 
 void wdata (const void *x, int len) {
-  assert (write (__f, x, len) == len);
+  int r = write(__f, x, len);
+  if (r != len)
+  {
+      fprintf(stderr, "Cannot write data len %d, file might be corrupted", len);
+      assert(0);
+  }
 }
 
 void wstr (const char *s) {
@@ -2836,7 +2846,12 @@ void wstr (const char *s) {
     int x = strlen (s);
     if (x <= 254) {
       unsigned char x_c = (unsigned char)x;
-      assert (write (__f, &x_c, 1) == 1);
+      int r = write(__f, &x_c, 1);
+      if (r != 1)
+      {
+          fprintf(stderr, "Cannot write string %s, file might be corrupted", s);
+          assert(0);
+      }
     } else {
       fprintf (stderr, "String is too big...\n");
       assert (0);
@@ -2857,7 +2872,12 @@ void wstr (const char *s) {
 void wll (long long a) {
 //  printf ("%lld ", a);
   a = htole64 (a);
-  assert (write (__f, &a, 8) == 8);
+  int r = write(__f, &a, 8);
+  if (r != 8)
+  {
+      fprintf(stderr, "Cannot write long long %lld, file might be corrupted", a);
+      assert(0);
+  }
 }
 
 int count_list_size (struct tl_combinator_tree *T) {
