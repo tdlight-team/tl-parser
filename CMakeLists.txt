@@ -11,6 +11,7 @@ if (MSVC)
 endif()
 
 add_executable(${PROJECT_NAME} ${SOURCES})
+set_target_properties(${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY .)
 if (NOT WIN32)
 	target_link_libraries(${PROJECT_NAME} m)
 endif()
